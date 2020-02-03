@@ -37,10 +37,14 @@ char* encode_base64(char* lhv, char* data, size_t len_in)
         if (i < len_in) c = (uint8_t)(data[i++]);
         d = (a << 16) + (b << 8) + c;
 
-        lhv[j++] = base64_encode_table[(d >> 18) & 0x3F];
-        lhv[j++] = base64_encode_table[(d >> 12) & 0x3F];
-        lhv[j++] = base64_encode_table[(d >> 6) & 0x3F];
-        lhv[j++] = base64_encode_table[d & 0x3F];
+        if (j < len_out)
+            lhv[j++] = base64_encode_table[(d >> 18) & 63];
+        if (j < len_out)
+            lhv[j++] = base64_encode_table[(d >> 12) & 63];
+        if (j < len_out)
+            lhv[j++] = base64_encode_table[(d >> 6) & 63];
+        if (j < len_out)
+            lhv[j++] = base64_encode_table[d & 63];
     }
 
     size_t p = len_in % 3;
@@ -100,9 +104,12 @@ char* decode_base64(char* lhv, char* data, size_t len_in)
             d = base64_decode_table[(uint8_t)(data[i++])];
         e = (a << 18) + (b << 12) + (c << 6) + d;
 
-        if (j < len_out) lhv[j++] = (e >> 16) & 0xFF;
-        if (j < len_out) lhv[j++] = (e >> 8) & 0xFF;
-        if (j < len_out) lhv[j++] = e & 0xFF;
+        if (j < len_out)
+            lhv[j++] = (e >> 16) & 0xFF;
+        if (j < len_out)
+            lhv[j++] = (e >> 8) & 0xFF;
+        if (j < len_out)
+            lhv[j++] = e & 0xFF;
     }
 
     return lhv;

@@ -1,20 +1,18 @@
 #ifndef __RADIX_BASE64_H__
 #define __RADIX_BASE64_H__
 
-#include <stddef.h>
+#include <stddef.h> // size_t
 
 // ------------------------------------------------------------
 // ENCODE
 // ------------------------------------------------------------
-size_t encode_length_base64 (size_t len);
-char*  encode_base64        (char* lhv, char* data, size_t len_in);
+size_t base64_encode_length (const size_t len);
+char*  base64_encode        (char* lhv, const char* data, const size_t len_in);
 
 // ------------------------------------------------------------
 // DECODE
 // ------------------------------------------------------------
-size_t decode_length_base64 (size_t len);
-char*  decode_base64        (char* lhv, char* data, size_t len_in);
-
-void print_table();
+size_t base64_decode_length (const size_t len);
+char*  base64_decode        (char* lhv, const char* data, const size_t len_in);
 
 #endif

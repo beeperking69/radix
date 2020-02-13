@@ -18,16 +18,16 @@ static const unsigned char base64_encode_table[64] =
     '4', '5', '6', '7', '8', '9', '+', '/'
 };
 
-size_t encode_length_base64(size_t len)
+size_t base64_encode_length(const size_t len)
 {
     return ((len + 2) / 3) * 4;
 }
 
-char* encode_base64(char* lhv, char* data, size_t len_in)
+char* base64_encode(char* lhv, const char* data, const size_t len_in)
 {
     size_t i = 0;
     size_t j = 0;
-    size_t len_out = encode_length_base64(len_in);
+    size_t len_out = base64_encode_length(len_in);
     uint32_t a, b, c, d;
     while (i < len_in)
     {
@@ -77,14 +77,14 @@ static const unsigned char base64_decode_table[123] =
     0x31, 0x32, 0x33
 };
 
-size_t decode_length_base64(size_t len)
+size_t base64_decode_length(const size_t len)
 {
     return ((len / 4) * 3) + 2;
 }
 
-char* decode_base64(char* lhv, char* data, size_t len_in)
+char* base64_decode(char* lhv, const char* data, const size_t len_in)
 {
-    size_t len_out = decode_length_base64(len_in);
+    size_t len_out = base64_decode_length(len_in);
     if (data[len_in - 1] == BASE64_PADDING) len_out--;
     if (data[len_in - 2] == BASE64_PADDING) len_out--;
 
